@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/suda7kabo/household-account-book/domain/object/expense"
-	"github.com/suda7kabo/household-account-book/repository"
+	"github.com/suda7kabo/household-account-book/domain/repository"
 )
 
 type ExpenseUseCase interface {
