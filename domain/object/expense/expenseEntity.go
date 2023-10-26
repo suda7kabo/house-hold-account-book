@@ -1,10 +1,15 @@
 package expense
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Expense struct {
-	ID   ID
-	Name Name
+	ID        ID
+	Name      Name
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func NewExpense(name string) (*Expense, error) {

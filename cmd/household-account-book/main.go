@@ -12,16 +12,26 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/suda7kabo/household-account-book/handler"
+	"github.com/suda7kabo/household-account-book/infrastructure"
+	"github.com/suda7kabo/household-account-book/usecase"
 )
 
 func main() {
 	e := echo.New()
-	expenseHandler := handler.NewExpenseHandler()
+
+	db, err := infrastructure.NewDB()
+	if err != nil {
+		log.Fatalln("$$failed to connect db", err)
+	}
+	defer db.Close()
+	expenseRepository := infrastructure.NewExpenseRepository(db)
+	expenseUseCase := usecase.NewExpenseUseCase(expenseRepository)
+	expenseHandler := handler.NewExpenseHandler(expenseUseCase)
 
 	e.POST("/expenses", expenseHandler.CreateExpense)
 	go func() {
 		if err := e.Start(":1323"); err != http.ErrServerClosed {
-			log.Fatal(err)
+			log.Fatalln("Server closed with error:", err)
 		}
 	}()
 

@@ -7,5 +7,5 @@ import (
 )
 
 type Expense interface {
-	Create(ctx context.Context, expense *expense.Expense) error
+	Create(ctx context.Context, expense *expense.Expense) (*expense.Expense, error)
 }

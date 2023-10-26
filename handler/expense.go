@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/suda7kabo/household-account-book/usecase"
 )
 
 type ExpenseHandler interface {
@@ -11,10 +12,11 @@ type ExpenseHandler interface {
 }
 
 type expenseHandlerWrapper struct {
+	u usecase.ExpenseUseCase
 }
 
-func NewExpenseHandler() ExpenseHandler {
-	return &expenseHandlerWrapper{}
+func NewExpenseHandler(u usecase.ExpenseUseCase) ExpenseHandler {
+	return &expenseHandlerWrapper{u: u}
 }
 
 func (w expenseHandlerWrapper) CreateExpense(ctx echo.Context) error {
@@ -25,8 +27,15 @@ func (w expenseHandlerWrapper) CreateExpense(ctx echo.Context) error {
 			Message: "パラメータのバインドに失敗しました。",
 		})
 	}
+	result, err := w.u.Create(ctx.Request().Context(), req.Name)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, HTTPError{
+			Code:    002,
+			Message: "費目の登録に失敗しました。",
+		})
+	}
 	return ctx.JSON(http.StatusOK, Expense{
-		ID:   "expenseID",
+		ID:   result.ID,
 		Name: req.Name,
 	})
 }
