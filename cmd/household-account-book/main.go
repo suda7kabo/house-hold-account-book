@@ -14,19 +14,27 @@ import (
 	"github.com/suda7kabo/household-account-book/handler"
 	"github.com/suda7kabo/household-account-book/infrastructure"
 	"github.com/suda7kabo/household-account-book/usecase"
+	"github.com/suda7kabo/household-account-book/util/logs"
 )
 
 func main() {
-	e := echo.New()
+	logger, err := logs.NewLogger()
+	if err != nil {
+		log.Fatalf("failed to initializa logger: %v", err)
+	}
+	defer logger.Sync()
 
 	db, err := infrastructure.NewDB()
 	if err != nil {
-		log.Fatalln("$$failed to connect db", err)
+		log.Fatalln("failed to connect db", err)
 	}
 	defer db.Close()
+
+	e := echo.New()
+
 	expenseRepository := infrastructure.NewExpenseRepository(db)
 	expenseUseCase := usecase.NewExpenseUseCase(expenseRepository)
-	expenseHandler := handler.NewExpenseHandler(expenseUseCase)
+	expenseHandler := handler.NewExpenseHandler(expenseUseCase, logger)
 
 	e.POST("/expenses", expenseHandler.CreateExpense)
 	go func() {

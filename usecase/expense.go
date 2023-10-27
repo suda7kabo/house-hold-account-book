@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/suda7kabo/household-account-book/domain/object/expense"
 	"github.com/suda7kabo/household-account-book/domain/repository"
@@ -28,7 +29,7 @@ func NewExpenseUseCase(r repository.Expense) ExpenseUseCase {
 }
 
 func (u useCase) Create(ctx context.Context, name string) (*ExpenseDTO, error) {
-	e, err := expense.NewExpense(name)
+	e, err := expense.NewExpense(name, time.Now())
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate expense: %w", err)
 	}
