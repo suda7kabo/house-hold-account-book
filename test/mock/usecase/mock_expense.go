@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	usecase "github.com/katsuharu/household-account-book/usecase"
+	usecase "github.com/suda7kabo/household-account-book/usecase"
 )
 
 // MockExpenseUseCase is a mock of ExpenseUseCase interface.

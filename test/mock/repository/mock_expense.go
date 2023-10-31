@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	expense "github.com/katsuharu/household-account-book/domain/object/expense"
+	expense "github.com/suda7kabo/household-account-book/domain/object/expense"
 )
 
 // MockExpense is a mock of Expense interface.

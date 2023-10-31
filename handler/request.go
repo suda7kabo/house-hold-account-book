@@ -1,5 +1,5 @@
 package handler
 
-type ReqBodyExpensee struct {
+type ReqBodyExpense struct {
 	Name string `json:"name"`
 }

@@ -37,6 +37,8 @@ func main() {
 	expenseHandler := handler.NewExpenseHandler(expenseUseCase, logger)
 
 	e.POST("/expenses", expenseHandler.CreateExpense)
+	//e.GET("/expenses",expenseHandler.CreateExpense)
+
 	go func() {
 		if err := e.Start(":1323"); err != http.ErrServerClosed {
 			log.Fatalln("Server closed with error:", err)

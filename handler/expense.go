@@ -10,6 +10,7 @@ import (
 
 type ExpenseHandler interface {
 	CreateExpense(ctx echo.Context) error
+	//ListExpense(ctx echo.Context) error
 }
 
 type expenseHandlerWrapper struct {
@@ -22,7 +23,7 @@ func NewExpenseHandler(u usecase.ExpenseUseCase, l *logs.Logger) ExpenseHandler 
 }
 
 func (w expenseHandlerWrapper) CreateExpense(ctx echo.Context) error {
-	req := new(ReqBodyExpensee)
+	req := new(ReqBodyExpense)
 	if err := ctx.Bind(req); err != nil {
 		w.l.Error("failed to bind request", err)
 		return ctx.JSON(http.StatusBadRequest, HTTPError{
